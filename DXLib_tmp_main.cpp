@@ -20,6 +20,7 @@ int SystemInit(){
 int MainProcess(){
 	if( ProcessMassage() != 0 ) return -1;
 	if( ClearDrawScreen() != 0 ) return -2;
+	KeyStack();
 	return 0;
 }
 
