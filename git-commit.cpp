@@ -19,7 +19,7 @@ int main( int args,char *argv[] ){
 	if( argv[3][0] == '\"' )
 		sprintf( command,"git commit -m \"%s\"",&argv[3][1] );
 	else
-		sprintf( command,"git commit -m \"%s\"",&argv[3][1] );
+		sprintf( command,"git commit -m \"%s\"",argv[3] );
 	printf( "%s\n",command );
 	system( command );
 	
