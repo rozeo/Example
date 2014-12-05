@@ -31,6 +31,5 @@ int main( int args,char *argv[] ){
 	printf( "%s\n",command );
 	system( command );
 	
-	printf( "%s\n",argv[0] );
 	return 0;
 }
