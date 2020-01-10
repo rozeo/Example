@@ -9,7 +9,7 @@ use UnexpectedValueException;
 use BadMethodCallException;
 use ReflectionClass;
 use JsonSerializable;
-use App\Domain\Extensions\MappingTypeCheckWithAnnotation;
+use App\Domain\Extensions\TypeCheckWithAnnotation;
 
 trait EntitySupporter
 {
@@ -25,18 +25,19 @@ trait EntitySupporter
         foreach($vars as $varName => $value)
         {
             $snakeVarName = $prefix . $this->camelToSnake($varName);
-            
-            if (!array_key_exists($snakeVarName, $data)) {
-                throw new InvalidArgumentException("Undefined index in input array, [$snakeVarName]");
-            }
+            $value = $data[$snakeVarName] ?? null;            
 
-            if (!MappingTypeCheckWithAnnotation::check($this, $varName, $data[$snakeVarName])) {
-                $value = var_export($data[$snakeVarName], true);
-                $className = get_class($this);
-                throw new UnexpectedValueException("value [$value] cannot accept in property, [$className::$varName].");
-            }
+            $this->checkMappableValue($varName, $value);
 
-            $this->$varName = $data[$snakeVarName];
+            $this->$varName = $value;
+        }
+    }
+
+    private function checkMappableValue(string $propertyName, $value)
+    {
+        if (!TypeCheckWithAnnotation::checkType($this, $propertyName, $value)) {
+            $className = get_class($this);
+            throw new UnexpectedValueException("value [$value] cannot accept in property, [$className::$propertyName].");
         }
     }
 
@@ -62,11 +63,17 @@ trait EntitySupporter
         $arr = [];
         foreach($vars as $varName => $value)
         {
+            if (TypeCheckWithAnnotation::isHidden($this, $varName)) {
+                continue;
+            }
+
             $value = $this->$varName;
-            
+ 
             /* if object */
             if(gettype($value) === 'object') {
-                if(method_exists($value, 'toArray')) {
+                if (method_exists($value, '__toString')) {
+                    return (string)$value;
+                } elseif (method_exists($value, 'toArray')) {
                     $value = $value->toArray();
                 } elseif($value instanceof JsonSerializable) {
                     $value = $value->JsonSerialize();
@@ -110,7 +117,7 @@ trait EntitySupporter
          */ 
         if(preg_match('/^set(.+)$/', $name, $match) && count($args) > 0) {
             return $this->setter($match[1], $args[0]);    
-        } elseif(preg_match('^get(.+)$/', $name, $match)) {
+        } elseif(preg_match('/^get(.+)$/', $name, $match)) {
             return $this->getter($match[1]);
         }
 
@@ -158,6 +165,8 @@ trait EntitySupporter
         if(!property_exists($this, $propertyName)) {
             throw new InvalidArgumentException("Undefined property [$propertyName]");
         }
+
+        $this->checkMappableValue($propertyName, $value);
 
         $clone = clone $this;
         $clone->$propertyName = $value;
