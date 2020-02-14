@@ -1,0 +1,58 @@
+[[plugins]]
+repo = 'tomasr/molokai'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+
+[[plugins]]
+ repo = 'phpactor/phpactor'
+ build = 'composer install'
+ on_ft = ['php']
+
+[[plugins]]
+repo    = 'roxma/vim-hug-neovim-rpc'
+if      = '!has("nvim") && has("python3")'
+depends = 'nvim-yarp'
+
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+if   = '!has("nvim") && has("python3")'
+
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if   = 'has("python3")'
+hook_add = '''
+    let g:deoplete#enable_at_startup = 1
+'''
+
+
+[[plugins]]
+repo  = 'kristijanhusak/deoplete-phpactor'
+on_ft = ['php']
+
+[[plugins]]
+repo = 'mattn/emmet-vim'
+
+[[plugins]]
+repo = 'vimplugin/project.vim'
+
+[[plugins]]
+repo = 'deoplete-plugins/deoplete-go'
+build = 'make'
+
+[[plugins]]
+repo = 'udalov/kotlin-vim'
+
+[[plugins]]
+repo = 'phpstan/vim-phpstan'
+
+[[plugins]]
+repo = 'dense-analysis/ale'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'

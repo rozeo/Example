@@ -5,6 +5,7 @@ set ambiwidth=double
 set tabstop=4
 set expandtab
 set shiftwidth=4
+set laststatus=2
 set smartindent
 set virtualedit=block
 set whichwrap=b,s,[,],<,>
@@ -42,6 +43,7 @@ if dein#load_state('$HOME/.cache/dein')
 endif
 
 " Required:
+filetype plugin on
 filetype plugin indent on
 syntax enable
 
@@ -54,7 +56,35 @@ endif
 
 let g:molokai_original = 1
 
+let b:ale_linters = {'php': ['phpstan', 'php']}
+
 autocmd FileType php setlocal omnifunc=phpactor#Complete
+
+let g:deoplete#sources#go#gocode_binary = '/home/rozeo/go/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+
+" 上部に表示される情報を非表示
+let g:netrw_banner = 0
+" 表示形式をTreeViewに変更
+let g:netrw_liststyle = 3
+" 左右分割を右側に開く
+let g:netrw_altv = 1
+" 分割で開いたときに85%のサイズで開く
+let g:netrw_winsize = 80
+
+
+" Airline setting
+let g:airline_theme='alduin'
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" unicode symbols
+" let g:airline_left_sep = '»'
+" let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+" let g:airline_right_sep = '◀'
 
 noremap sh <C-w>h
 noremap sj <C-w>j
