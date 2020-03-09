@@ -80,6 +80,8 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
+let g:ale_php_phpstan_level=5
+
 " unicode symbols
 " let g:airline_left_sep = '»'
 " let g:airline_left_sep = '▶'
@@ -92,3 +94,6 @@ noremap sk <C-w>k
 noremap sl <C-w>l
 noremap <S-h> ^
 noremap <S-l> $
+
+" execute php-cs
+autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()

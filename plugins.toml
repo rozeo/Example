@@ -46,9 +46,6 @@ build = 'make'
 repo = 'udalov/kotlin-vim'
 
 [[plugins]]
-repo = 'phpstan/vim-phpstan'
-
-[[plugins]]
 repo = 'dense-analysis/ale'
 
 [[plugins]]
@@ -56,3 +53,10 @@ repo = 'vim-airline/vim-airline'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
+
+[[plugins]]
+repo  = 'kristijanhusak/deoplete-phpactor'
+on_ft = ['php']
+
+[[plugins]]
+repo = 'stephpy/vim-php-cs-fixer'
